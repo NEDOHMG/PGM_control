@@ -12,14 +12,19 @@ int LED = 26;
 
  
 void setup() {
+ 
   Serial.begin(115200);
  
   pinMode(PGM_ValveA, OUTPUT);
   pinMode(PGM_ValveB, OUTPUT);
   pinMode(PGM_ValveC, OUTPUT);
   pinMode(LED, OUTPUT);
+ 
+  digitalWrite(PGM_ValveA, LOW);
+  digitalWrite(PGM_ValveB, LOW);
+  digitalWrite(PGM_ValveC, LOW);
 
-  // This will stat the Bluetooth 
+  // This will start the Bluetooth 
   SerialBT.begin("ESP32");
 
 }
