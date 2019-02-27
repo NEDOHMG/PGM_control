@@ -6,7 +6,7 @@ BluetoothSerial SerialBT;
 
 int PGM_ValveA = 25;
 int PGM_ValveB = 33;
-int PGM_ValveC = 32;
+int PGM_ValveC = 26;
 
 int LED = 26;
 
@@ -20,6 +20,10 @@ void setup()
   pinMode(PGM_ValveB, OUTPUT);
   pinMode(PGM_ValveC, OUTPUT);
   pinMode(LED, OUTPUT);
+
+  digitalWrite(PGM_ValveA, LOW);
+  digitalWrite(PGM_ValveB, LOW);
+  digitalWrite(PGM_ValveC, LOW);
 
   // This will stat the Bluetooth
   SerialBT.begin("ESP32NEDO");
@@ -36,11 +40,12 @@ void loop()
     // SerialBT.end(); // Call the reset function
     SerialBT.end();
     ESP.restart();
-  } else if (w == 1)
+  }
+  else if (w == 0)
   {
     LED = false;
   }
-  else if (w == 0)
+  else if (w == 1)
   {
     LED = true;
   }
