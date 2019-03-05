@@ -8,9 +8,9 @@ int PGM_ValveA = 25;
 int PGM_ValveB = 33;
 int PGM_ValveC = 26;
 
-int LED = 26;
+bool ValveState = false;
 
-int w = 0;
+int dataReceived = 0;
 
 void setup()
 {
@@ -19,7 +19,6 @@ void setup()
   pinMode(PGM_ValveA, OUTPUT);
   pinMode(PGM_ValveB, OUTPUT);
   pinMode(PGM_ValveC, OUTPUT);
-  pinMode(LED, OUTPUT);
 
   digitalWrite(PGM_ValveA, LOW);
   digitalWrite(PGM_ValveB, LOW);
@@ -33,36 +32,35 @@ void loop()
 {
 
   SerialBT.read();
-  w = SerialBT.parseInt();
+  dataReceived = SerialBT.parseInt();
 
-  if (w == 5)
+  if (dataReceived == 5)
   {
     // SerialBT.end(); // Call the reset function
     SerialBT.end();
     ESP.restart();
   }
-  else if (w == 0)
+
+  if (dataReceived == 1)
   {
-    LED = false;
+    ValveState = true;
   }
-  else if (w == 1)
+  else if (dataReceived == 0)
   {
-    LED = true;
+    ValveState = false;
   }
 
-  if (LED)
+  if (ValveState == true)
   {
     digitalWrite(PGM_ValveA, HIGH);
     digitalWrite(PGM_ValveB, HIGH);
     digitalWrite(PGM_ValveC, HIGH);
+    delayMicroseconds(2000000);
   }
-  else
+  else if (ValveState == false)
   {
     digitalWrite(PGM_ValveA, LOW);
     digitalWrite(PGM_ValveB, LOW);
     digitalWrite(PGM_ValveC, LOW);
   }
-
-  // clean the variable
-  w = 0;
 }
